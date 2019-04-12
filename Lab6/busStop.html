@@ -61,6 +61,29 @@
               lat: 0,
               lon: 0
         },
+
+        /* Uncomment this part if you want to use this watcher instead
+        watch: {
+             lat: function(){
+                      for (let x= 0; x<this.stops.length; x++ )
+                      {
+                        this.stops[x].distance = this.distanceFrom(this.lat,this.lon,this.stops[x].lat,this.stops[x].lon);
+                      }
+
+                      // This simple function is sorting the array
+                      this.stops.sort(function(a, b){return a.distance - b.distance})
+                  },
+             lon: function(){
+                      for (let x= 0; x<this.stops.length; x++ )
+                      {
+                        this.stops[x].distance = this.distanceFrom(this.lat,this.lon,this.stops[x].lat,this.stops[x].lon);
+                      }
+
+                      // This simple function is sorting the array
+                      this.stops.sort(function(a, b){return a.distance - b.distance})
+             }
+        },
+        */
         mounted: function()
         {
 
@@ -74,14 +97,14 @@
             this.lat = position.coords.latitude;
             this.lon = position.coords.longitude;
 
-
             for (let x= 0; x<this.stops.length; x++ )
             {
-
-
               this.stops[x].distance = this.distanceFrom(this.lat,this.lon,this.stops[x].lat,this.stops[x].lon);
-
             }
+
+            // This simple function is sorting the array
+            this.stops.sort(function(a, b){return a.distance - b.distance})
+            //==================================
           }
         );
 
@@ -123,29 +146,8 @@
 
         filteredStops: function()
         {
-
-          let filters = [];
-          for (let x of this.stops)
-          {
-            filters.push(x);
-          }
-          function swap(array, i, j) {
-            let temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-          }
-          for (let i = 0; i<filters.length; i++)
-          {
-            for (let j = 1; j<filters.length; j++)
-            {
-              if(filters[j-1].distance > filters[j].distance)
-              {
-                swap(filters,j-1, j);
-              }
-            }
-          }
-
-          return filters.slice(0,this.numStops);
+          // Just return a slice of the stops array
+          return this.stops.slice(0,this.numStops);
         }
 
 
